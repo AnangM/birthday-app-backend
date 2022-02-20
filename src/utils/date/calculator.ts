@@ -1,6 +1,13 @@
 import { DateTime, Duration } from "luxon"
 
 export class DateCalculator{
+    /**
+     * Calculate user's next birth day to be set as job reservation at 9 o'clock localtime
+     * 
+     * @param date user's birth day in dd-mm-yyyy
+     * @param timezone user's timezone in IANA format
+     * @returns number (time in UTC in seconds since epoch)
+     */
     public static CalculateUserNextBirthday(date: string, timezone: string): number{
         const dateArray: string[] = date.split('-')
         let birth_date = DateTime.utc(parseInt(dateArray[2]), parseInt(dateArray[1]), parseInt(dateArray[0]), 9).setZone(timezone)
