@@ -10,6 +10,16 @@ export class UsersService {
     constructor(@InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
         @InjectRepository(JobEntity) private jobRepository: Repository<JobEntity>, private connection: Connection) { }
 
+    /**
+     * Create new user
+     * Database transaction begin create user, then create user's notification job
+     * 
+     * @param first_name New user's first name
+     * @param last_name New user's last name
+     * @param birth_date New user's birth date in dd-mm-yyyy
+     * @param location New user's timezone in IANA format
+     * @returns Promise<UserEntity> | HttpException
+     */
     async createUser(first_name: string, last_name: string, birth_date: string, location: string): Promise<UserEntity> {
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect()
@@ -34,6 +44,11 @@ export class UsersService {
         }
     }
 
+    /**
+     * Get user data by it's coresponding id
+     * @param id user's id to be searched
+     * @returns Promise<UserEntity> | HttpException
+     */
     async getUserById(id: string): Promise<UserEntity> {
         try {
             return await this.userRepository.findOneOrFail(id);
@@ -42,6 +57,13 @@ export class UsersService {
         }
     }
 
+
+    /**
+     * Delete existing user
+     * 
+     * @param id user's id to be deleted
+     * @returns Promise<UserEntity>
+     */
     async deleteUser(id: string): Promise<UserEntity> {
         const user = await this.getUserById(id);
         const stm = this.jobRepository.createQueryBuilder('jobs').where(`job like '%${id}%'`).delete()
@@ -49,6 +71,16 @@ export class UsersService {
         return this.userRepository.remove(user);
     }
 
+    /**
+     * Update user data and recreate notification job
+     * 
+     * @param id user's id in uuid4
+     * @param first_name user's new first name
+     * @param last_name user's new last name
+     * @param birth_date user's new birt date
+     * @param location  user's new timezone
+     * @returns Promise<UserEntity>
+     */
     async updateUser(id: string, first_name: string, last_name: string, birth_date: string, location: string): Promise<UserEntity> {
         const user = await this.getUserById(id);
         user.first_name = first_name;
