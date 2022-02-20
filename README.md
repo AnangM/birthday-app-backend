@@ -36,6 +36,8 @@ $ npm install
 ## Running the app
 
 ```bash
+# edit .env to match hookbin url
+#
 # edit database in typeorm.ts according to your instance
 # change entities to "entities":['./dist/**/*.entity.js'],
 # database in sync mode for development so no need for migration
