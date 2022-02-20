@@ -5,6 +5,13 @@ import { DateTime } from "luxon";
 @ValidatorConstraint({ name: 'isValidTimezone', async: true })
 @Injectable()
 export class ValidDateRule implements ValidatorConstraintInterface {
+    /**
+     * Validate date to match mm-dd-yyyy rule
+     * 
+     * @param value value to be validated
+     * @param validationArguments validation additional arguments
+     * @returns boolean | HttpException
+     */
     validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
         try{
             const dateArray = value.split('-')
