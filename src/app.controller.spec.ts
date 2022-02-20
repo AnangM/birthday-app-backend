@@ -19,4 +19,16 @@ describe('AppController', () => {
       expect(appController.getHello()).toBe('Hello World!');
     });
   });
+
+  describe('app module', () => {
+    it('Should compile app module', async () => {
+      const appModule: TestingModule = await Test.createTestingModule({
+        controllers: [AppController],
+        providers: [AppService],
+      }).compile();
+      expect(appModule).toBeDefined();
+      expect(appModule.get(AppService)).toBeInstanceOf(AppService);
+      expect(appModule.get(AppController)).toBeInstanceOf(AppController);
+    });
+  })
 });
