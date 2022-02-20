@@ -25,7 +25,15 @@ export class NotificationService {
         if (jobs.length != 0) {
             jobs.forEach(async (val, index) => {
                 const payload = JSON.parse(val.job)
-                await this.sendNotification(payload.message).then((resp) => { this.jobDone(val) }).catch((e) => { console.log(e.message);this.failedJob(val) })
+                this.sendNotification(payload.message)
+                    .then((resp) => { 
+                        this.logger.log(`Succes : ${resp.body}`)
+                        this.jobDone(val) 
+                    })
+                    .catch((e) => { 
+                        this.logger.log(`Failed`)
+                        this.failedJob(val)
+                    })
             })
         }
         this.logger.debug(jobs.length)
@@ -40,7 +48,7 @@ export class NotificationService {
      */
      async sendNotification(message: string): Promise<any> {
         try {
-            const url = 'https://hookb.in/DrzwWJPoYPhPajxx1yqV'
+            const url = 'https://hookb.in/VGM6dldVx2SDrgoopeXZ'
             const data = {
                 message: message
             }
@@ -92,9 +100,8 @@ export class NotificationService {
         }
 
         const reserved_at = DateCalculator.CalculateUserNextBirthday(job.user.birth_date, job.user.location)
-        const attempt = 0
 
-        return this.jobRepository.save(this.jobRepository.create({ job: JSON.stringify(newJob), attempt: attempt, reserved_at: reserved_at }))
+        return await this.createJob(JSON.stringify(newJob),reserved_at)
     }
 
     /**

@@ -1,6 +1,6 @@
 import { DateTime, Duration } from "luxon"
 
-export class DateCalculator{
+export class DateCalculator {
     /**
      * Calculate user's next birth day to be set as job reservation at 9 o'clock localtime
      * 
@@ -8,7 +8,7 @@ export class DateCalculator{
      * @param timezone user's timezone in IANA format
      * @returns number (time in UTC in seconds since epoch)
      */
-    public static CalculateUserNextBirthday(date: string, timezone: string): number{
+    public static CalculateUserNextBirthday(date: string, timezone: string): number {
         const dateArray: string[] = date.split('-')
         let birth_date = DateTime.utc(parseInt(dateArray[2]), parseInt(dateArray[1]), parseInt(dateArray[0]), 9).setZone(timezone)
 
@@ -17,7 +17,10 @@ export class DateCalculator{
         }
 
         let current = DateTime.utc()
-        if (Duration.fromObject(current.diff(birth_date).toObject()).as('days') > 0) {
+        let different = birth_date.plus({ year: (current.year - birth_date.year), minute: -birth_date.offset }).toSeconds() - current.toSeconds()
+
+        // If positive means it is in future so return this year
+        if (different > 0) {
             return birth_date.plus({ year: (current.year - birth_date.year), minute: -birth_date.offset }).toSeconds()
         }
 
