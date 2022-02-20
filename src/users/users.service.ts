@@ -87,6 +87,17 @@ export class UsersService {
         user.last_name = last_name;
         user.birth_date = birth_date;
         user.location = location;
+        const stm = this.jobRepository.createQueryBuilder('jobs').where(`job like '%${id}%'`).delete()
+        stm.execute()
+        let newJob = {
+            user:user,
+            message: `Hey, ${first_name} ${last_name} it’s your birthday`,
+        }
+        const reserved_at: number = DateCalculator.CalculateUserNextBirthday(birth_date, location)
+        const attempt = 0;
+        const job: string = JSON.stringify(newJob)
+        
+        await this.jobRepository.save(this.jobRepository.create({ job: job, attempt: attempt, reserved_at: reserved_at }))
 
         return this.userRepository.save(user);
     }
