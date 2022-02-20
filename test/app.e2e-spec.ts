@@ -1,17 +1,25 @@
-jest.useFakeTimers()
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { createTestDB } from '../src/utils/testing/connection.helper';
+import { UserEntity } from '../src/users/user.entity';
+import { JobEntity } from '../src/notifications/job.entity';
+import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  let user:any;
+  let user: any;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+      imports: [
+        AppModule,
+        TypeOrmModule.forRoot(createTestDB([UserEntity, JobEntity])),
+        TypeOrmModule.forFeature([UserEntity, JobEntity])
+      ],
+    })
+    .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
@@ -21,8 +29,9 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
-  });
+      .expect('Hello World!')
+  })
+
 
   it('/users (GET)', () => {
     return request(app.getHttpServer())
@@ -31,7 +40,7 @@ describe('AppController (e2e)', () => {
       .expect('Users service')
   })
 
-  it('/users (POST) Invalid date format', () => {
+  it('/users (POST) Invalid date format',() => {
     const payload = {
       "first_name": "E2E User Test",
       "last_name": "LA",
@@ -41,8 +50,8 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/users')
       .send(payload)
-      .expect('Content-Type',/json/)
-      .expect(400)
+      .expect('Content-Type', /json/)
+      .expect(500)
       .then(resp => {
         user = resp.body
       })
@@ -58,8 +67,8 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/users')
       .send(payload)
-      .expect('Content-Type',/json/)
-      .expect(400)
+      .expect('Content-Type', /json/)
+      .expect(500)
       .then(resp => {
         user = resp.body
       })
@@ -75,7 +84,7 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/users')
       .send(payload)
-      .expect('Content-Type',/json/)
+      .expect('Content-Type', /json/)
       .expect(201)
       .then(resp => {
         user = resp.body
@@ -83,7 +92,7 @@ describe('AppController (e2e)', () => {
 
   })
 
-  it('/users (PUT)',()=>{
+  it('/users (PUT)', () => {
     const payload = {
       "first_name": "E2E Updated User Test",
       "last_name": "LA",
@@ -97,7 +106,7 @@ describe('AppController (e2e)', () => {
   })
 
 
-  it('/users (Delete)',()=>{
+  it('/users (Delete)', () => {
     return request(app.getHttpServer())
       .delete(`/users/${user.id}`)
       .expect(200)
