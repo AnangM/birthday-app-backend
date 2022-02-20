@@ -48,7 +48,7 @@ export class NotificationService {
      */
      async sendNotification(message: string): Promise<any> {
         try {
-            const url = 'https://hookb.in/VGM6dldVx2SDrgoopeXZ'
+            const url = process.env.HOOKBIN_URL
             const data = {
                 message: message
             }

@@ -23,6 +23,7 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
+Further explaination about how I approach the task provided in Readme.pdf
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
@@ -35,6 +36,10 @@ $ npm install
 ## Running the app
 
 ```bash
+# edit database in typeorm.ts according to your instance
+# change entities to "entities":['./dist/**/*.entity.js'],
+# database in sync mode for development so no need for migration
+
 # development
 $ npm run start
 
@@ -48,6 +53,11 @@ $ npm run start:prod
 ## Test
 
 ```bash
+# edit database in typeorm.ts according to your instance
+# change entities to "entities":['./**/*.entity.ts'], //  Use this for e2e test
+
+# edit test database in src/utils/testing/connection.helper.ts according to your instance
+
 # unit tests
 $ npm run test
 
