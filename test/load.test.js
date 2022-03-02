@@ -19,7 +19,7 @@ export default()=>{
     const createUserRes = http.post(`${baseURL}/users`,{
         "first_name":"user",
         "last_name":"k6",
-        "birth_date":"20-02-2000",
+        "birth_date":"02-20-2000",
         "location":"Australia/Melbourne"
     })
 
