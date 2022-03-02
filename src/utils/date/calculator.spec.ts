@@ -2,16 +2,16 @@ import { DateCalculator } from "./calculator"
 
 describe('DateCalculator',()=>{
     function invalidDate(){
-        DateCalculator.CalculateUserNextBirthday('30-02-2000','Asia/Jakarta')
+        DateCalculator.CalculateUserNextBirthday('02-30-2000','Asia/Jakarta')
     }
 
     function invalidTimezone(){
-        DateCalculator.CalculateUserNextBirthday('30-10-2000','Asia/Semarang')
+        DateCalculator.CalculateUserNextBirthday('10-30-2000','Asia/Semarang')
     }
 
     describe('Work',()=>{
         it('Should return this year',()=>{
-            expect(DateCalculator.CalculateUserNextBirthday('30-10-2000','Asia/Jakarta')).toBeDefined()
+            expect(DateCalculator.CalculateUserNextBirthday('10-30-2000','Asia/Jakarta')).toBeDefined()
         })
 
         it('Should return next year',()=>{

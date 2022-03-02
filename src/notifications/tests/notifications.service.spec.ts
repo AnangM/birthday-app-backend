@@ -27,7 +27,7 @@ describe('Notification Service',()=>{
     describe('Create Job',()=>{
         it('Should prepare job for testing',async ()=>{
             const time = DateTime.utc().plus({hour:1})
-            const jobString = {"user":{"first_name":"user","last_name":"LA","birth_date":"20-02-2000","location":"America/Los_Angeles","id":"e2c678b6-dee5-4350-b7f2-cbc41d88a2dd"},"message":"Hey, user LA it’s your birthday"}
+            const jobString = {"user":{"first_name":"user","last_name":"LA","birth_date":"02-20-2000","location":"America/Los_Angeles","id":"e2c678b6-dee5-4350-b7f2-cbc41d88a2dd"},"message":"Hey, user LA it’s your birthday"}
             let newJob = await notificationService.createJob(JSON.stringify(jobString), parseInt(time.toSeconds().toString()))
             job = newJob;
             expect(newJob.id).toBeDefined()

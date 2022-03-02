@@ -25,7 +25,7 @@ describe('Validator',()=>{
 
     describe('valid date',()=>{
         it('Should be valid',()=>{
-            expect(dateValidator.validate('30-10-2000')).toBe(true)
+            expect(dateValidator.validate('10-30-2000')).toBe(true)
         })
 
         it('Should be invalid',()=>{
