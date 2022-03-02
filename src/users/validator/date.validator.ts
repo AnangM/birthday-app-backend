@@ -16,8 +16,8 @@ export class ValidDateRule implements ValidatorConstraintInterface {
         try{
             const dateArray = value.split('-')
             const time = DateTime.fromObject({
-                day: dateArray[0],
-                month: dateArray[1],
+                day: dateArray[1],
+                month: dateArray[0],
                 year: dateArray[2]
             })
             if (time.isValid) return true;

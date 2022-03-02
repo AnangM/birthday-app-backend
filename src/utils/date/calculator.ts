@@ -10,7 +10,7 @@ export class DateCalculator {
      */
     public static CalculateUserNextBirthday(date: string, timezone: string): number {
         const dateArray: string[] = date.split('-')
-        let birth_date = DateTime.utc(parseInt(dateArray[2]), parseInt(dateArray[1]), parseInt(dateArray[0]), 9).setZone(timezone)
+        let birth_date = DateTime.utc(parseInt(dateArray[2]), parseInt(dateArray[0]), parseInt(dateArray[1]), 9).setZone(timezone)
 
         if (!birth_date.isValid) {
             throw new Error('Invalid birth date')

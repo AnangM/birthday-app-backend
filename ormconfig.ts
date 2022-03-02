@@ -8,7 +8,7 @@ const config:PostgresConnectionOptions = {
     "password":".",
     "database":"birthday_app",
     "entities":['./dist/**/*.entity.js'],
-    // "entities":['./**/*.entity.ts'], //  Use this for e2e test
+    // "entities":['./src/**/*.entity.ts'], //  Use this for e2e test
     "synchronize":true,
     "migrations":[
         './dist/src/migrations/*.js'
